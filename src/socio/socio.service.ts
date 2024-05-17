@@ -5,7 +5,6 @@ import { SocioEntity } from './socio.entity/socio.entity';
 import { Repository } from 'typeorm';
 import { BusinessLogicException, BusinessError } from '../shared/errors/business-errors';
 
-
 @Injectable()
 export class SocioService {
     constructor(
@@ -49,7 +48,6 @@ export class SocioService {
       
         await this.socioRepository.remove(Club);
     }
-
 
 
 

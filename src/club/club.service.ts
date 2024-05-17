@@ -5,7 +5,6 @@ import { ClubEntity } from './club.entity/club.entity';
 import { Repository } from 'typeorm';
 import { BusinessLogicException, BusinessError } from '../shared/errors/business-errors';
 
-
 @Injectable()
 export class ClubService {
     constructor(
@@ -53,5 +52,6 @@ export class ClubService {
 
 
 
-
 }
+
+
