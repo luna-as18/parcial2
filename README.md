@@ -1,5 +1,5 @@
-<p>
-Las 3 cdolecciones de Postman se encuentran en la carptea collections, todas en el mismo archivo "Clubs and Members" ahi esta segregado cada uno en su respectiva carpeta < /p>
+<h1>
+Las 3 colecciones de Postman se encuentran en la carptea collections, todas en el mismo archivo "Clubs and Members" ahi esta segregado cada uno en su respectiva carpeta </h1>
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
