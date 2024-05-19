@@ -1,16 +1,17 @@
 /* eslint-disable prettier/prettier */
 /* archivo src/shared/testing-utils/typeorm-testing-config.ts*/
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { SocioEntity } from '../../socio/socio.entity/socio.entity';
+import { ClubEntity } from '../../club/club.entity/club.entity';
 
 export const TypeOrmTestingConfig = () => [
  TypeOrmModule.forRoot({
    type: 'sqlite',
    database: ':memory:',
    dropSchema: true,
-   entities: [],
+   entities: [SocioEntity, ClubEntity],
    synchronize: true,
    keepConnectionAlive: true
  }),
- TypeOrmModule.forFeature([]),
+ TypeOrmModule.forFeature([SocioEntity, ClubEntity]),
 ];

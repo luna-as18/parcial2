@@ -1,25 +1,21 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ClubEntity } from '../../club/club.entity/club.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('socio')
+@Entity()
 export class SocioEntity {
-    @PrimaryGeneratedColumn('uuid')
- id: string;
-
- @Column()
- username: string;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
  
- @Column()
- email: string;
+    @Column()
+    usuario: string;
  
- @Column()
- birthDate: string;
-
- @ManyToMany(() => ClubEntity, club => club.socios)
- clubs: ClubEntity[];
+    @Column()
+    email: string;
    
- 
+    @Column()
+    fechaNacimiento: string;
 
+    @ManyToMany(() => ClubEntity, club => club.socios)
+    clubs: ClubEntity[];
 }
-

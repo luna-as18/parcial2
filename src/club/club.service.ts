@@ -1,57 +1,55 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ClubEntity } from './club.entity/club.entity';
+import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
-import { BusinessLogicException, BusinessError } from '../shared/errors/business-errors';
+import { ClubEntity } from './club.entity/club.entity';
 
 @Injectable()
 export class ClubService {
     constructor(
         @InjectRepository(ClubEntity)
-        private clubRepository: Repository<ClubEntity>,
+        private readonly clubRepository: Repository<ClubEntity>
     ){}
 
     async findAll(): Promise<ClubEntity[]> {
-        return await this.clubRepository.find({relations: ["socios"]});
+        return await this.clubRepository.find({ relations: ["socios"] });
     }
 
     async findOne(id: string): Promise<ClubEntity> {
-        const Club: ClubEntity = await this.clubRepository.findOne({where: {id}, relations: ["socios"] } );
-        if (!Club)
-          throw new BusinessLogicException("The Club with the given id was not found", BusinessError.NOT_FOUND);
+        const club: ClubEntity = await this.clubRepository.findOne({where: {id}, relations: ["socios"] } );
+        if (!club)
+          throw new BusinessLogicException("The club with the given id was not found", BusinessError.NOT_FOUND);
     
-        return Club;
+        return club;
     }
     
-    async create(Club: ClubEntity): Promise<ClubEntity> {
-        //valida descripcion no tenga length mayor a 100
-        if (Club.description.length > 100)
-          throw new BusinessLogicException("The description length must be less than 100 characters", BusinessError.BAD_REQUEST);
-        return await this.clubRepository.save(Club);
+    async create(club: ClubEntity): Promise<ClubEntity> {
+        if ( club.descripcion.length > 100 && club.descripcion ) {
+            throw new BusinessLogicException("The description must not exceed 100 characters", BusinessError.PRECONDITION_FAILED);
+        }
+        return await this.clubRepository.save(club);
     }
 
-    async update(id: string, Club: ClubEntity): Promise<ClubEntity> {
+    async update(id: string, club: ClubEntity): Promise<ClubEntity> {
         const persistedClub: ClubEntity = await this.clubRepository.findOne({where:{id}});
         if (!persistedClub)
-          throw new BusinessLogicException("The Club with the given id was not found", BusinessError.NOT_FOUND);
-        //valida descripcion no tenga length mayor a 100
-        if (Club.description.length > 100)
-          throw new BusinessLogicException("The description length must be less than 100 characters", BusinessError.BAD_REQUEST);
+          throw new BusinessLogicException("The club with the given id was not found", BusinessError.NOT_FOUND);
+
+        if (club.descripcion.length > 100 && club.descripcion ) {
+            throw new BusinessLogicException("The description must not exceed 100 characters", BusinessError.PRECONDITION_FAILED);
+        }
         
-        return await this.clubRepository.save({...persistedClub, ...Club});
+        return await this.clubRepository.save({...persistedClub, ...club});
     }
 
     async delete(id: string) {
-        const Club: ClubEntity = await this.clubRepository.findOne({where:{id}});
-        if (!Club)
-          throw new BusinessLogicException("The Club with the given id was not found", BusinessError.NOT_FOUND);
+        const club: ClubEntity = await this.clubRepository.findOne({where:{id}});
+        if (!club)
+          throw new BusinessLogicException("The club with the given id was not found", BusinessError.NOT_FOUND);
       
-        await this.clubRepository.remove(Club);
+        await this.clubRepository.remove(club);
     }
-
-
-
 }
 
 
